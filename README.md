@@ -1,0 +1,4 @@
+# Abstract
+Almost all companies and brands use advertising by the help of different media channels to promote their products and services. With the technological developments, new mediums are created to reach consumers in different categorical aspects. By looking at the current methods in advertising, digital advertising is one of the outstanding channels for attracting large amount of customers.
+
+The main purpose of this project is to cover and compare different types of marketing techniques that are used globally. The biggest differences are between traditional marketing and the rising digital marketing. While visualizing these technique usages, we are going to compare global data with the distinct regions’ data, such as Turkey’s marketing media that is heavily focused on traditional marketing. After covering the unique data, the reasoning of the differences will be discussed.
