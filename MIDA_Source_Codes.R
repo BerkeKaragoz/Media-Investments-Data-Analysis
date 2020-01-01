@@ -135,3 +135,18 @@ ggplot(data, aes(fill=condition, y=value, x=specie)) +
 ###
 #
 ###################################################################
+#
+# These codes are used for descriptive stats:
+#
+library(Hmisc)
+
+rd <- read.csv("rd2.csv", header=T)
+rd$Years <- NULL
+
+summary(rd)
+DS <- describe(rd)
+DS
+
+round(sd(rd$Digital),2)
+
+describe(rd)
