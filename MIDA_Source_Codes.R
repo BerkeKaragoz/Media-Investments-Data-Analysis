@@ -2,7 +2,7 @@
 #
 # E. Berke Karag?z & Sinan Isik
 #
-#Graph Source Codes
+# Graph Source Codes
 #
 ####################################################################
 #
@@ -64,11 +64,14 @@ ggplot(data, aes(fill=condition, y=value, x=specie)) +
   geom_bar(position="dodge", stat="identity") +
   ggtitle("2019 Estimates of Internet Usage and Population for TR and USA", subtitle = "According to Data from Internet World Stats") +
   xlab("Countries") + ylab("Million Amount") + scale_fill_manual(values = cls) + labs(fill="")
+###
+#
+# MI_Digital_vs_Traditional_TR
+# 2010 - 2018 Digital vs Traditional Investments of Turkey
+#
+###
 
-
-###########################################################################################################################
-
-rdYear <- read.csv("rdYear.csv")
+rdYear <- read.csv("ReklamcilarDernegi_YearlyInvestments.csv")
 rdFrame <- data.frame(rdYear)
 
 traditional <- rowSums(rdFrame[, c(2,3,4,5,6)])
@@ -91,8 +94,44 @@ data <- data.frame(specie,Type,value)
 ggplot(data, aes(fill=Type, y=value, x=specie)) + 
   geom_bar(position="stack", stat="identity") + ggtitle("2010 - 2018 Digital vs Traditional Investments of Turkey", subtitle = "According to Data from Reklamcilar Dernegi") +
   xlab("Years") + ylab("Thousand TL")
-
-
-##########################################################################################################################
-
 ###
+#
+# MI_TR_vs_USA_Digital
+# TR vs USA Digital Media Advertisement Expenditures
+#
+###
+# library
+library(ggplot2)
+
+# create a dataset
+specie <- c(rep("Search Engine", 2) , rep("Banner", 2), rep("Video", 2), rep("Other", 2))
+condition <- rep(c("USA", "TR") , 4)
+
+tr <- read.csv("trExpenditures.csv", header=T)
+tr$Year <- NULL
+trMean <- colMeans(tr)
+trMean
+trVector <- as.numeric(trMean)
+trVector
+
+usa <- read.csv("usaExpenditures.csv", header=T)
+usa$Year <- NULL
+usaMean <- colMeans(usa)
+usaMean
+usaVector <- as.numeric(usaMean)
+usaVector
+
+
+value <- c(usaVector[1], trVector[1],usaVector[2], trVector[2],usaVector[3], trVector[3],usaVector[4], trVector[4])
+value
+
+data <- data.frame(specie,condition,value)
+
+# Grouped
+ggplot(data, aes(fill=condition, y=value, x=specie)) + 
+  geom_bar(position="dodge", stat="identity") + scale_y_log10() +
+  scale_fill_manual("Countries", values= c("USA" = "#3C3B6E", "TR" = "red"))+
+  ggtitle("TR vs USA Digital Media Advertisement Expenditures", subtitle = "According to 2017 and 2018 First Halves Means Recompiled Data from IAB as Log Values") + xlab("Medium") + ylab("Million $")
+###
+#
+###################################################################
