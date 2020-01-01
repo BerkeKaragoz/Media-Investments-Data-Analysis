@@ -7,10 +7,10 @@
 ####################################################################
 #
 # MI_Distribution_TR
-#2010 - 2018 Media Investments Distribution of Turkey by Medium
+# 2010 - 2018 Media Investments Distribution of Turkey by Medium
 #
 ####
-rd <- read.csv(file = "rd2.csv")
+rd <- read.csv(file = "ReklamcilarDernegi_YearlyInvestments.csv")
 rdRaw <- rd
 rdRaw$Years <- NULL
 rdRaw
@@ -37,4 +37,31 @@ ggplot(data, aes(fill=Medium, y=rdOneDimension, x=specie)) +
   scale_fill_manual(values=cls)
 ###
 #
+# IUP_TR_vs_USA_2019
+# 2019 Estimates of Internet Usage and Population for TR and USA
 #
+###
+usaInt <- read.csv(file="usaInternet.csv", header=T)
+usaInt
+
+trInt <- read.csv(file="trInternet.csv", header=T)
+trInt
+
+usaInt$Population.Penetration <- trInt$Population.Penetration <- NULL
+
+internet <- rbind(usaInt, trInt)
+internet
+
+value <- c(internet$Population, internet$Internet.Usage, internet$Facebook)
+condition <- c(rep("Population", 2), rep("Internet Users", 2), rep("Facebook",2) )
+specie <- rep(c("USA", "TR"), 3)
+
+data <- data.frame(specie, condition, value)
+
+cls <- rep(c("#3b5998", "cyan", "yellow"), 2);
+
+ggplot(data, aes(fill=condition, y=value, x=specie)) + 
+  geom_bar(position="dodge", stat="identity") +
+  ggtitle("2019 Estimates of Internet Usage and Population for TR and USA", subtitle = "According to Data from Internet World Stats") +
+  xlab("Countries") + ylab("Million Amount") + scale_fill_manual(values = cls) + labs(fill="")
+###
