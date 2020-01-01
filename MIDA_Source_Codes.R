@@ -1,6 +1,6 @@
 #https://github.com/BerkeKaragoz/Media-Investments-Data-Analysis
 #
-# E. Berke Karagöz & Sinan Isik
+# E. Berke Karag?z & Sinan Isik
 #
 #Graph Source Codes
 #
@@ -64,4 +64,35 @@ ggplot(data, aes(fill=condition, y=value, x=specie)) +
   geom_bar(position="dodge", stat="identity") +
   ggtitle("2019 Estimates of Internet Usage and Population for TR and USA", subtitle = "According to Data from Internet World Stats") +
   xlab("Countries") + ylab("Million Amount") + scale_fill_manual(values = cls) + labs(fill="")
+
+
+###########################################################################################################################
+
+rdYear <- read.csv("rdYear.csv")
+rdFrame <- data.frame(rdYear)
+
+traditional <- rowSums(rdFrame[, c(2,3,4,5,6)])
+digital <- rdFrame$Digital
+rdFrame
+
+rd.years <- c("2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010")
+
+specie <- c(rep(rd.years[1], 2) , rep(rd.years[2] , 2) , rep(rd.years[3] , 2) , rep(rd.years[4] , 2), rep(rd.years[5] , 2), rep(rd.years[6] , 2),
+            rep(rd.years[7] , 2), rep(rd.years[8] , 2), rep(rd.years[9] , 2))
+
+Type <- rep(c("Traditional" , "Digital"), 9)
+
+value <- c(traditional[1], digital[1], traditional[2], digital[2], traditional[3], digital[3]
+           ,traditional[4], digital[4], traditional[5], digital[5], traditional[6], digital[6],
+           traditional[7], digital[7], traditional[8], digital[8], traditional[9], digital[9])
+data <- data.frame(specie,Type,value)
+
+# Stacked
+ggplot(data, aes(fill=Type, y=value, x=specie)) + 
+  geom_bar(position="stack", stat="identity") + ggtitle("2010 - 2018 Digital vs Traditional Investments of Turkey", subtitle = "According to Data from Reklamcilar Dernegi") +
+  xlab("Years") + ylab("Thousand TL")
+
+
+##########################################################################################################################
+
 ###
