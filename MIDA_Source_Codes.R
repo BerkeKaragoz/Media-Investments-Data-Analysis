@@ -34,7 +34,13 @@ ggplot(data, aes(fill=Medium, y=rdOneDimension, x=specie)) +
   ggtitle("2010 - 2018 Media Investments Distribution of Turkey by Medium", subtitle = "According to Data from Reklamcilar Dernegi") +
   xlab("Years") + ylab("Distribution") +
   scale_x_continuous(breaks=specie) +
-  scale_fill_manual(values=cls) + theme_bw()
+  scale_fill_manual(values=cls) +  theme_void() + 
+  ggtitle("Turkey Media Investments by Medium in 2010") + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14),    # Center title position and size
+    plot.subtitle = element_text(hjust = 0.5),            # Center subtitle
+    plot.caption = element_text(hjust = 0, face = "italic")# move caption to the left
+  )
 ###
 #
 # IUP_TR_vs_USA_2019
@@ -62,8 +68,14 @@ cls <- rep(c("#3b5998", "cyan", "yellow"), 2);
 
 ggplot(data, aes(fill=condition, y=value, x=specie)) + 
   geom_bar(position="dodge", stat="identity") +
-  ggtitle("2019 Estimates of Internet Usage and Population for TR and USA", subtitle = "According to Data from Internet World Stats") +
-  xlab("Countries") + ylab("Million Amount") + scale_fill_manual(values = cls) + labs(fill="")
+  ggtitle("2019 Estimates of Internet Usage and Population for TR and USA") +
+  xlab("Countries") + ylab("Million") + scale_fill_manual(values = cls) + labs(fill="") +
+  ggtitle("Turkey Media Investments by Medium in 2010") + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14),    # Center title position and size
+    plot.subtitle = element_text(hjust = 0.5),            # Center subtitle
+    plot.caption = element_text(hjust = 0, face = "italic")# move caption to the left
+  ) 
 ###
 #
 # MI_Digital_vs_Traditional_TR
@@ -93,7 +105,12 @@ data <- data.frame(specie,Type,value)
 # Stacked
 ggplot(data, aes(fill=Type, y=value, x=specie)) + 
   geom_bar(position="stack", stat="identity") + ggtitle("2010 - 2018 Digital vs Traditional Investments of Turkey", subtitle = "According to Data from Reklamcilar Dernegi") +
-  xlab("Years") + ylab("Thousand TL") + theme(plot.title = element_text(hjust = -0.5)) + theme_bw()
+  xlab("Years") + ylab("Thousand TL") + theme(plot.title = element_text(hjust = -0.5)) + theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14),    # Center title position and size
+    plot.subtitle = element_text(hjust = 0.5),            # Center subtitle
+    plot.caption = element_text(hjust = 0, face = "italic")# move caption to the left
+  ) 
 ###
 #
 # MI_TR_vs_USA_Digital
