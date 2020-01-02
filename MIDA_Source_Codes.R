@@ -1,6 +1,8 @@
 #https://github.com/BerkeKaragoz/Media-Investments-Data-Analysis
 #
-# E. Berke Karag?z & Sinan Isik
+# CTIS 365 Data Analysis Term Project Source Codes
+#
+# E. Berke Karagoz & Sinan Isik
 #
 # Graph Source Codes
 #
@@ -35,11 +37,11 @@ ggplot(data, aes(fill=Medium, y=rdOneDimension, x=specie)) +
   xlab("Years") + ylab("Distribution") +
   scale_x_continuous(breaks=specie) +
   scale_fill_manual(values=cls) +  theme_void() + 
-  ggtitle("Turkey Media Investments by Medium in 2010") + 
   theme(
     plot.title = element_text(hjust = 0.5, size = 14),    # Center title position and size
     plot.subtitle = element_text(hjust = 0.5),            # Center subtitle
-    plot.caption = element_text(hjust = 0, face = "italic")# move caption to the left
+    plot.caption = element_text(hjust = 0, face = "italic"),# move caption to the left
+    legend.position = "bottom"
   )
 ###
 #
@@ -114,7 +116,7 @@ ggplot(data, aes(fill=Type, y=value, x=specie)) +
 ###
 #
 # MI_TR_vs_USA_Digital
-# TR vs USA Digital Media Advertisement Expenditures
+# TR vs the USA Digital Media Advertisement Expenditures
 #
 ###
 # library
@@ -148,35 +150,20 @@ data <- data.frame(specie,condition,value)
 ggplot(data, aes(fill=condition, y=value, x=specie)) + 
   geom_bar(position="dodge", stat="identity") + scale_y_log10() +
   scale_fill_manual("Countries", values= c("USA" = "#3C3B6E", "TR" = "red"))+
-  ggtitle("TR vs USA Digital Media Advertisement Expenditures", subtitle = "According to 2017 and 2018 First Halves Means Recompiled Data from IAB as Log Values") + xlab("Medium") + ylab("Million $")
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14),    # Center title position and size
+    plot.subtitle = element_text(hjust = 0.5),            # Center subtitle
+    plot.caption = element_text(hjust = 0, face = "italic")# move caption to the left
+  ) +
+  ggtitle("TR vs the USA Digital Media Advertisement Expenditures", subtitle = "According to 2017 and 2018 First Halves Means Recompiled Data from IAB as Log Values") + xlab("Medium") + ylab("Million $")
 ###
 #
-###################################################################
-#
-# These codes are used for descriptive stats:
-#
-library(Hmisc)
-
-rd <- read.csv("rd2.csv", header=T)
-rd$Years <- NULL
-
-summary(rd)
-DS <- describe(rd)
-DS
-
-round(sd(rd$Digital),2)
-
-describe(rd)
-
-
-###
-#
-# 
-# Donut
+# MI_TR_Medium_2010
+# Donut Medium 2010
 #
 ###
 
-# Create test data. 2010
 data <- data.frame(
   Category=c("TV", "Press", "Outdoor", "Cinema", "Digital", "Radio"),
   count=c(rdFrame$TV[9], rdFrame$Press[9], rdFrame$Outdoor[9], rdFrame$Cinema[9], rdFrame$Digital[9] , rdFrame$Radio[9])
@@ -213,12 +200,18 @@ ggplot(data, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Category)) +
   theme_void() + 
   ggtitle("Turkey Media Investments by Medium in 2010") + 
   theme(
-    plot.title = element_text(hjust = 0.5, size = 14),    # Center title position and size
+    plot.title = element_text(hjust = 0.5, size = 14, vjust = -12.5),    # Center title position and size
     plot.subtitle = element_text(hjust = 0.5),            # Center subtitle
-    plot.caption = element_text(hjust = 0, face = "italic")# move caption to the left
+    plot.caption = element_text(hjust = 0, face = "italic"),# move caption to the left
+    legend.position = c(0.5, 0.5)
   )
-#################################################################################################
-# Create test data. 2018
+###
+#
+# MI_TR_Medium_2018
+# Donut Medium 2018
+#
+###
+
 data <- data.frame(
   Category=c("TV", "Press", "Outdoor", "Cinema", "Digital", "Radio"),
   count=c(rdFrame$TV[1], rdFrame$Press[1], rdFrame$Outdoor[1], rdFrame$Cinema[1], rdFrame$Digital[1] , rdFrame$Radio[1])
@@ -255,51 +248,29 @@ ggplot(data, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Category)) +
   theme_void() + 
   ggtitle("Turkey Media Investments by Medium in 2018") + 
   theme(
-    plot.title = element_text(hjust = 0.5, size = 14),    # Center title position and size
+    plot.title = element_text(hjust = 0.5, size = 14, vjust = -12.5),    # Center title position and size
     plot.subtitle = element_text(hjust = 0.5),            # Center subtitle
-    plot.caption = element_text(hjust = 0, face = "italic")# move caption to the left
+    plot.caption = element_text(hjust = 0, face = "italic"),# move caption to the left
+    legend.position = c(0.5, 0.5)
   )
+###
+#
+###################################################################
+#
+# These codes are used for descriptive stats:
+#
+###
+library(Hmisc)
 
+rd <- read.csv("rd2.csv", header=T)
+rd$Years <- NULL
 
-################################################################################################
+summary(rd)
+DS <- describe(rd)
+DS
 
+round(sd(rd$Digital),2)
 
+describe(rd)
 
-################################################################################################
-# create a dataset
-
-rdYear <- read.csv("rdYear.csv")
-
-
-rdFrame <- data.frame(rdYear)
-
-
-traditional <- rowSums(rdFrame[, c(2,3,4,5,6)])
-digital <- rdFrame$Digital
-rdFrame
-
-rd.years <- c("2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010")
-
-
-specie <- c(rep(rd.years[1], 2) , rep(rd.years[2] , 2) , rep(rd.years[3] , 2) , rep(rd.years[4] , 2), rep(rd.years[5] , 2), rep(rd.years[6] , 2),
-            rep(rd.years[7] , 2), rep(rd.years[8] , 2), rep(rd.years[9] , 2))
-
-Type <- rep(c("Traditional" , "Digital"), 9)
-
-value <- c(traditional[1], digital[1], traditional[2], digital[2], traditional[3], digital[3]
-           ,traditional[4], digital[4], traditional[5], digital[5], traditional[6], digital[6],
-           traditional[7], digital[7], traditional[8], digital[8], traditional[9], digital[9])
-data <- data.frame(specie,Type,value)
-
-# Stacked
-ggplot(data, aes(fill=Type, y=value, x=specie)) + 
-  geom_bar(position="stack", stat="identity") + ggtitle("2010 - 2018 Digital vs Traditional Media Investments of Turkey", subtitle = "According to Data from Reklamcilar Dernegi") +
-  xlab("Years") + ylab("Thousand TL") + theme_bw() + 
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.background = element_blank()) + 
-  theme(
-    plot.title = element_text(hjust = 0.5, size = 14),    # Center title position and size
-    plot.subtitle = element_text(hjust = 0.5),            # Center subtitle
-    plot.caption = element_text(hjust = 0, face = "italic")# move caption to the left
-  )
-
+### E. Berke Karagoz and Sinan Isik
