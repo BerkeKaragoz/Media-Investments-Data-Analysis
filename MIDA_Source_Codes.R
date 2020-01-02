@@ -158,10 +158,11 @@ describe(rd)
 # Donut
 #
 ###
-# Create test data. 2018
+
+# Create test data. 2010
 data <- data.frame(
-  Category=c("TV", "Press", "Outdoor", "Radio", "Cinema", "Digital"),
-  count=c(rdFrame$TV[1], rdFrame$Press[1], rdFrame$Outdoor[1], rdFrame$Digital[1], rdFrame$Radio[1] , rdFrame$Cinema[1])
+  Category=c("TV", "Press", "Outdoor", "Cinema", "Digital", "Radio"),
+  count=c(rdFrame$TV[9], rdFrame$Press[9], rdFrame$Outdoor[9], rdFrame$Cinema[9], rdFrame$Digital[9] , rdFrame$Radio[9])
 )
 
 # Compute percentages
@@ -192,7 +193,55 @@ ggplot(data, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Category)) +
   geom_text( x=3.5, aes(y = labelPosition, label = data$pct), color = "white")+
   coord_polar(theta="y") + # Try to remove that to understand how the chart is built initially
   xlim(c(2, 4))+ # Try to remove that to see how to make a pie chart
-  theme_void() 
+  theme_void() + 
+  ggtitle("Turkey Media Investments by Medium in 2010") + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14),    # Center title position and size
+    plot.subtitle = element_text(hjust = 0.5),            # Center subtitle
+    plot.caption = element_text(hjust = 0, face = "italic")# move caption to the left
+  )
+#################################################################################################
+# Create test data. 2018
+data <- data.frame(
+  Category=c("TV", "Press", "Outdoor", "Cinema", "Digital", "Radio"),
+  count=c(rdFrame$TV[1], rdFrame$Press[1], rdFrame$Outdoor[1], rdFrame$Cinema[1], rdFrame$Digital[1] , rdFrame$Radio[1])
+)
+
+# Compute percentages
+data$fraction = data$count / sum(data$count)
+
+# Compute the cumulative percentages (top of each rectangle)
+data$ymax = cumsum(data$fraction)
+
+
+# Compute the bottom of each rectangle
+data$ymin <- c(0, head(data$ymax, n=-1))
+
+# Compute label position
+data$labelPosition <- (data$ymax + data$ymin) / 2
+
+# Compute a good label
+data$label <- paste0(data$category, "\n value: ", data$count)
+
+# Compute the bottom of each rectangle
+data$ymin = c(0, head(data$ymax, n=-1))
+
+data$pct <- round(data$fraction*100)
+data$pct <- paste(data$pct,"%",sep="") # add % to labels
+
+# Make the plot
+ggplot(data, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Category)) +
+  geom_rect()+
+  geom_text( x=3.5, aes(y = labelPosition, label = data$pct), color = "white")+
+  coord_polar(theta="y") + # Try to remove that to understand how the chart is built initially
+  xlim(c(2, 4))+ # Try to remove that to see how to make a pie chart
+  theme_void() + 
+  ggtitle("Turkey Media Investments by Medium in 2018") + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14),    # Center title position and size
+    plot.subtitle = element_text(hjust = 0.5),            # Center subtitle
+    plot.caption = element_text(hjust = 0, face = "italic")# move caption to the left
+  )
 
 
 ################################################################################################
@@ -227,7 +276,7 @@ data <- data.frame(specie,Type,value)
 
 # Stacked
 ggplot(data, aes(fill=Type, y=value, x=specie)) + 
-  geom_bar(position="stack", stat="identity") + ggtitle("2010 - 2018 Digital vs Traditional Investments of Turkey", subtitle = "According to Data from Reklamcilar Dernegi") +
+  geom_bar(position="stack", stat="identity") + ggtitle("2010 - 2018 Digital vs Traditional Media Investments of Turkey", subtitle = "According to Data from Reklamcilar Dernegi") +
   xlab("Years") + ylab("Thousand TL") + theme_bw() + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank()) + 
