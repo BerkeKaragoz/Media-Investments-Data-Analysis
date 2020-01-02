@@ -34,7 +34,7 @@ ggplot(data, aes(fill=Medium, y=rdOneDimension, x=specie)) +
   ggtitle("2010 - 2018 Media Investments Distribution of Turkey by Medium", subtitle = "According to Data from Reklamcilar Dernegi") +
   xlab("Years") + ylab("Distribution") +
   scale_x_continuous(breaks=specie) +
-  scale_fill_manual(values=cls)
+  scale_fill_manual(values=cls) + theme_bw()
 ###
 #
 # IUP_TR_vs_USA_2019
@@ -228,4 +228,4 @@ data <- data.frame(specie,Type,value)
 # Stacked
 ggplot(data, aes(fill=Type, y=value, x=specie)) + 
   geom_bar(position="stack", stat="identity") + ggtitle("2010 - 2018 Digital vs Traditional Investments of Turkey", subtitle = "According to Data from Reklamcilar Dernegi") +
-  xlab("Years") + ylab("Thousand TL")
+  xlab("Years") + ylab("Thousand TL") + theme_bw()
