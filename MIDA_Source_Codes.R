@@ -150,3 +150,82 @@ DS
 round(sd(rd$Digital),2)
 
 describe(rd)
+
+
+###
+#
+# 
+# Donut
+#
+###
+# Create test data. 2018
+data <- data.frame(
+  Category=c("TV", "Press", "Outdoor", "Radio", "Cinema", "Digital"),
+  count=c(rdFrame$TV[1], rdFrame$Press[1], rdFrame$Outdoor[1], rdFrame$Digital[1], rdFrame$Radio[1] , rdFrame$Cinema[1])
+)
+
+# Compute percentages
+data$fraction = data$count / sum(data$count)
+
+# Compute the cumulative percentages (top of each rectangle)
+data$ymax = cumsum(data$fraction)
+
+
+# Compute the bottom of each rectangle
+data$ymin <- c(0, head(data$ymax, n=-1))
+
+# Compute label position
+data$labelPosition <- (data$ymax + data$ymin) / 2
+
+# Compute a good label
+data$label <- paste0(data$category, "\n value: ", data$count)
+
+# Compute the bottom of each rectangle
+data$ymin = c(0, head(data$ymax, n=-1))
+
+data$pct <- round(data$fraction*100)
+data$pct <- paste(data$pct,"%",sep="") # add % to labels
+
+# Make the plot
+ggplot(data, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Category)) +
+  geom_rect()+
+  geom_text( x=3.5, aes(y = labelPosition, label = data$pct), color = "white")+
+  coord_polar(theta="y") + # Try to remove that to understand how the chart is built initially
+  xlim(c(2, 4))+ # Try to remove that to see how to make a pie chart
+  theme_void() 
+
+
+################################################################################################
+
+
+
+################################################################################################
+# create a dataset
+
+rdYear <- read.csv("rdYear.csv")
+
+
+rdFrame <- data.frame(rdYear)
+
+
+traditional <- rowSums(rdFrame[, c(2,3,4,5,6)])
+digital <- rdFrame$Digital
+rdFrame
+
+rd.years <- c("2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010")
+
+
+specie <- c(rep(rd.years[1], 2) , rep(rd.years[2] , 2) , rep(rd.years[3] , 2) , rep(rd.years[4] , 2), rep(rd.years[5] , 2), rep(rd.years[6] , 2),
+            rep(rd.years[7] , 2), rep(rd.years[8] , 2), rep(rd.years[9] , 2))
+
+Type <- rep(c("Traditional" , "Digital"), 9)
+
+value <- c(traditional[1], digital[1], traditional[2], digital[2], traditional[3], digital[3]
+           ,traditional[4], digital[4], traditional[5], digital[5], traditional[6], digital[6],
+           traditional[7], digital[7], traditional[8], digital[8], traditional[9], digital[9])
+data <- data.frame(specie,Type,value)
+
+# Stacked
+ggplot(data, aes(fill=Type, y=value, x=specie)) + 
+  geom_bar(position="stack", stat="identity") + ggtitle("2010 - 2018 Digital vs Traditional Investments of Turkey", subtitle = "According to Data from Reklamcilar Dernegi") +
+  xlab("Years") + ylab("Thousand TL")
