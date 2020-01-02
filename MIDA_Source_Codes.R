@@ -93,7 +93,7 @@ data <- data.frame(specie,Type,value)
 # Stacked
 ggplot(data, aes(fill=Type, y=value, x=specie)) + 
   geom_bar(position="stack", stat="identity") + ggtitle("2010 - 2018 Digital vs Traditional Investments of Turkey", subtitle = "According to Data from Reklamcilar Dernegi") +
-  xlab("Years") + ylab("Thousand TL")
+  xlab("Years") + ylab("Thousand TL") + theme(plot.title = element_text(hjust = -0.5)) + theme_bw()
 ###
 #
 # MI_TR_vs_USA_Digital
