@@ -228,4 +228,12 @@ data <- data.frame(specie,Type,value)
 # Stacked
 ggplot(data, aes(fill=Type, y=value, x=specie)) + 
   geom_bar(position="stack", stat="identity") + ggtitle("2010 - 2018 Digital vs Traditional Investments of Turkey", subtitle = "According to Data from Reklamcilar Dernegi") +
-  xlab("Years") + ylab("Thousand TL") + theme_bw()
+  xlab("Years") + ylab("Thousand TL") + theme_bw() + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank()) + 
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14),    # Center title position and size
+    plot.subtitle = element_text(hjust = 0.5),            # Center subtitle
+    plot.caption = element_text(hjust = 0, face = "italic")# move caption to the left
+  )
+
